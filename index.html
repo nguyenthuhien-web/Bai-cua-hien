@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yên Hạ — Blog cá nhân</title>
+  <meta name="description" content="Blog cá nhân của Yên Hạ — nơi lưu lại những lát cắt nhỏ của một ngày bình yên." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Sacramento&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a href="#" class="logo">Yên Hạ</a>
+      <ul class="nav-links">
+        <li><a href="#about">Về tôi</a></li>
+        <li><a href="#books">Sách</a></li>
+        <li><a href="#posts">Bài viết</a></li>
+        <li><a href="#gallery">Khoảnh khắc</a></li>
+        <li><a href="#contact">Liên hệ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">— blog của một người viết —</p>
+      <h1 class="hero-title">Yên Hạ</h1>
+      <p class="hero-tagline">
+        &ldquo;Chút chuyện nhỏ <br />
+        trong thế giới rộng lớn...&rdquo;
+      </p>
+      <a href="#posts" class="hero-cta">Đọc bài mới nhất</a>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="about-split">
+      <div class="about-text-col">
+        <div class="about-text-inner">
+          <h2 class="about-mini-title">Về tôi</h2>
+          <div class="about-paragraphs">
+            <p>Xin chào, mình là Yên Hạ.</p>
+            <p>
+              Là một tác giả trẻ yêu viết lách và một người làm truyền thông
+              ở độ tuổi 20s.
+            </p>
+            <p>
+              Blog này là một góc nhỏ để mình kể chuyện.
+              Cảm ơn bạn đã ghé thăm!
+            </p>
+          </div>
+          <a href="#posts" class="about-cta">Đọc câu chuyện của mình</a>
+        </div>
+      </div>
+      <div class="about-image-col">
+        <div class="about-image-wrap">
+          <img src="images/avatar.png" alt="Yên Hạ" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="books" class="books">
+    <div class="container">
+      <p class="section-eyebrow">— tác phẩm —</p>
+      <h2 class="section-title">Sách đã xuất bản</h2>
+      <p class="section-sub">Hai cuốn sách nhỏ, gửi đến những ai đang đi qua mưa giông.</p>
+
+      <div class="book-grid">
+        <article class="book-card">
+          <div class="book-cover">
+            <img src="images/book-muagiong.png" alt="Đi qua mưa giông, ngày mai là nắng hạ" loading="lazy" />
+          </div>
+          <div class="book-info">
+            <span class="book-index">Sách 01</span>
+            <h3 class="book-title">Đi qua mưa giông, ngày mai là nắng hạ</h3>
+            <p class="book-desc">
+              Mong rằng dù ngày mai trời nắng đẹp hay mưa giông,
+              bạn mình vẫn là những đứa trẻ kiên cường với cuộc đời...
+            </p>
+            <div class="book-buttons">
+              <button class="book-cta" onclick="openBuyModal('Đi qua mưa giông, ngày mai là nắng hạ', 'https://s.shopee.vn/3LEg7w2aob')">💳 Mua ngay</button>
+              <a href="https://s.shopee.vn/3LEg7w2aob" target="_blank" rel="noopener" class="book-link">Xem trên Shopee →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <div class="book-cover">
+            <img src="images/book-mayetroi.png" alt="Phía trên là mây trời, trước mắt là trùng khơi" loading="lazy" />
+          </div>
+          <div class="book-info">
+            <span class="book-index">Sách 02</span>
+            <h3 class="book-title">Phía trên là mây trời, trước mắt là trùng khơi</h3>
+            <p class="book-desc">
+              Thế gian rộng lớn, bạn hãy tin luôn có
+              con đường dành riêng cho mỗi chúng ta.
+            </p>
+            <div class="book-buttons">
+              <button class="book-cta" onclick="openBuyModal('Phía trên là mây trời, trước mắt là trùng khơi', 'https://tinyurl.com/phiatrenlamaytroi-shopee')">💳 Mua ngay</button>
+              <a href="https://tinyurl.com/phiatrenlamaytroi-shopee" target="_blank" rel="noopener" class="book-link">Xem trên Shopee →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Buy Modal -->
+  <div id="buyModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeBuyModal()">&times;</span>
+      <h2>Mua sách</h2>
+      <p id="modalBookTitle"></p>
+      <form id="buyForm" onsubmit="handleBuySubmit(event)">
+        <input type="text" placeholder="Tên của bạn *" required />
+        <input type="email" placeholder="Email *" required />
+        <input type="tel" placeholder="Số điện thoại *" required />
+        <input type="number" placeholder="Số lượng" min="1" value="1" />
+        <textarea placeholder="Ghi chú đơn hàng"></textarea>
+        <button type="submit" class="modal-btn">Xác nhận đơn hàng</button>
+      </form>
+      <p class="modal-note">Bạn sẽ được chuyển hướng để thanh toán trên Shopee</p>
+    </div>
+  </div>
+
+  <section id="posts" class="posts">
+    <div class="container">
+      <p class="section-eyebrow">— blog —</p>
+      <h2 class="section-title">Bài viết gần đây</h2>
+      <p class="section-sub">Những lát cắt suy tư của một người trẻ.</p>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Tìm kiếm bài viết..." />
+      </div>
+
+      <div class="post-grid" id="postGrid"></div>
+      <p id="noResults" class="no-results" style="display: none; text-align: center; padding: 2rem; color: #999;">Không tìm thấy bài viết nào.</p>
+    </div>
+  </section>
+
+  <section id="gallery" class="gallery">
+    <div class="container">
+      <h2 class="section-title">Khoảnh khắc</h2>
+      <p class="section-sub">Những bức ảnh không cần lời.</p>
+      <div class="gallery-grid">
+        <img class="gallery-item" src="https://picsum.photos/seed/yenha-g1/600/600" alt="Khoảnh khắc 1" loading="lazy" />
+        <img class="gallery-item" src="https://picsum.photos/seed/yenha-g2/600/600" alt="Khoảnh khắc 2" loading="lazy" />
+        <img class="gallery-item" src="https://picsum.photos/seed/yenha-g3/600/600" alt="Khoảnh khắc 3" loading="lazy" />
+        <img class="gallery-item" src="https://picsum.photos/seed/yenha-g4/600/600" alt="Khoảnh khắc 4" loading="lazy" />
+        <img class="gallery-item" src="https://picsum.photos/seed/yenha-g5/600/600" alt="Khoảnh khắc 5" loading="lazy" />
+        <img class="gallery-item" src="https://picsum.photos/seed/yenha-g6/600/600" alt="Khoảnh khắc 6" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="container">
+      <p class="section-eyebrow">— liên hệ —</p>
+      <h2 class="section-title">Giữ liên lạc nhé</h2>
+      <p class="contact-text">
+        Nếu bạn muốn chia sẻ gì đó với mình, đừng ngại tìm mình ở đây:
+      </p>
+      <div class="contact-cards">
+        <a href="https://www.facebook.com/iamyenha" target="_blank" rel="noopener" class="contact-card">
+          <img src="images/avatar.png" alt="" class="contact-avatar" />
+          <span class="contact-label">Facebook</span>
+          <span class="contact-handle">/iamyenha</span>
+        </a>
+        <a href="mailto:hello@yenha.blog" class="contact-card">
+          <img src="images/book-muagiong.png" alt="" class="contact-avatar" />
+          <span class="contact-label">Email</span>
+          <span class="contact-handle">hello@yenha.blog</span>
+        </a>
+        <a href="#" class="contact-card">
+          <img src="images/book-mayetroi.png" alt="" class="contact-avatar" />
+          <span class="contact-label">Instagram</span>
+          <span class="contact-handle">@iamyenha</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>© 2026 Yên Hạ · Made with ♡</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
