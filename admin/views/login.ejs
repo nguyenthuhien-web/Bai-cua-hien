@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login — Yên Hạ Blog</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #faf6f1 0%, #f4ede5 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-container {
+      background: white;
+      padding: 48px 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(74, 58, 50, 0.15);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2.2rem;
+      font-style: italic;
+      text-align: center;
+      color: #4a3a32;
+      margin-bottom: 12px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #8b7a6f;
+      font-size: 0.9rem;
+      margin-bottom: 40px;
+      font-style: italic;
+    }
+    form { display: flex; flex-direction: column; gap: 20px; }
+    label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #4a3a32;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    input {
+      padding: 14px 16px;
+      border: 2px solid #e8ddd3;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      color: #4a3a32;
+    }
+    input:focus {
+      outline: none;
+      border-color: #c4826f;
+    }
+    button {
+      padding: 14px 24px;
+      background: #c4826f;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    button:hover {
+      background: #b3715a;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(196, 130, 111, 0.3);
+    }
+    .error {
+      color: #d97757;
+      font-size: 0.9rem;
+      padding: 12px;
+      background: rgba(217, 119, 87, 0.1);
+      border-radius: 8px;
+      border-left: 3px solid #d97757;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Yên Hạ</h1>
+    <p class="subtitle">Admin Panel</p>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+    <form method="POST">
+      <div>
+        <label for="password">Mật khẩu</label>
+        <input type="password" id="password" name="password" required autofocus />
+      </div>
+      <button type="submit">Đăng nhập</button>
+    </form>
+  </div>
+</body>
+</html>

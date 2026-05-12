@@ -1,47 +1,80 @@
-// Comments System using localStorage
+let postSlug = null;
 
-const COMMENTS_KEY = "yenha_comments";
-
-// Get page ID from current URL
 function getPageId() {
   const pathname = window.location.pathname;
-  return pathname.split("/").pop().replace(".html", "") || "index";
+  const filename = pathname.split("/").pop().replace(".html", "") || "index";
+  return filename;
 }
 
-// Load comments for current page
-function loadComments() {
-  const pageId = getPageId();
-  const allComments = JSON.parse(localStorage.getItem(COMMENTS_KEY)) || {};
-  return allComments[pageId] || [];
+async function loadAndDisplayComments() {
+  const commentsList = document.getElementById("commentsList");
+  if (!commentsList) return;
+
+  try {
+    const response = await fetch(`/api/comments/${postSlug}`);
+    const comments = await response.json();
+
+    if (comments.length === 0) {
+      commentsList.innerHTML = '<p style="color: var(--text-soft); text-align: center; padding: 20px;">Chưa có bình luận nào. Hãy là người đầu tiên!</p>';
+      return;
+    }
+
+    commentsList.innerHTML = comments.map(comment => `
+      <div class="comment-item">
+        <div class="comment-author">${escapeHtml(comment.name)}</div>
+        <div class="comment-date">${new Date(comment.created_at).toLocaleDateString("vi-VN")} · ${new Date(comment.created_at).toLocaleTimeString("vi-VN", {hour: "2-digit", minute: "2-digit"})}</div>
+        <div class="comment-text">${escapeHtml(comment.text).replace(/\n/g, "<br>")}</div>
+      </div>
+    `).join("");
+  } catch (err) {
+    console.error('Error loading comments:', err);
+    commentsList.innerHTML = '<p style="color: #d97757;">Lỗi tải bình luận</p>';
+  }
 }
 
-// Save comment
-function saveComment(name, email, text) {
-  const pageId = getPageId();
-  const allComments = JSON.parse(localStorage.getItem(COMMENTS_KEY)) || {};
+async function submitComment(event) {
+  event.preventDefault();
+  const form = event.target;
+  const name = form.name.value.trim();
+  const email = form.email.value.trim();
+  const text = form.text.value.trim();
 
-  if (!allComments[pageId]) {
-    allComments[pageId] = [];
+  if (!name || !email || !text) {
+    alert("Vui lòng điền đầy đủ thông tin!");
+    return;
   }
 
-  const comment = {
-    id: Date.now(),
-    name,
-    email,
-    text,
-    timestamp: new Date().toISOString(),
-    approved: false
-  };
+  try {
+    const response = await fetch('/api/comments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ postSlug, name, email, text })
+    });
 
-  allComments[pageId].push(comment);
-  localStorage.setItem(COMMENTS_KEY, JSON.stringify(allComments));
-  return comment;
+    if (response.ok) {
+      form.reset();
+      loadAndDisplayComments();
+      alert("Cảm ơn bình luận của bạn! Bình luận sẽ được hiển thị sau khi được duyệt.");
+    } else {
+      alert('Lỗi gửi bình luận');
+    }
+  } catch (err) {
+    console.error('Error submitting comment:', err);
+    alert('Lỗi gửi bình luận');
+  }
 }
 
-// Render comments section
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 function renderCommentsSection() {
   const container = document.querySelector(".post-content");
   if (!container) return;
+
+  postSlug = getPageId();
 
   const commentsHTML = `
     <section class="comments-section">
@@ -61,7 +94,6 @@ function renderCommentsSection() {
   container.insertAdjacentHTML("afterend", commentsHTML);
   loadAndDisplayComments();
 
-  // Add styles dynamically if not already loaded
   if (!document.getElementById("commentStyles")) {
     const style = document.createElement("style");
     style.id = "commentStyles";
@@ -144,7 +176,7 @@ function renderCommentsSection() {
       .comment-form textarea:focus {
         outline: none;
         border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.1);
+        box-shadow: 0 0 0 3px rgba(196, 130, 111, 0.1);
       }
 
       .comment-form button {
@@ -159,74 +191,15 @@ function renderCommentsSection() {
       }
 
       .comment-form button:hover {
-        background: #c85f48;
+        background: #b3715a;
         transform: translateY(-2px);
-        box-shadow: 0 8px 20px -8px rgba(217, 119, 87, 0.3);
-      }
-
-      .comment-pending {
-        background: var(--bg-sand);
-        border: 1px solid var(--border);
-        padding: 12px;
-        border-radius: var(--radius-sm);
-        font-size: 0.85rem;
-        color: var(--text-soft);
-        margin-top: 10px;
+        box-shadow: 0 8px 20px -8px rgba(196, 130, 111, 0.3);
       }
     `;
     document.head.appendChild(style);
   }
 }
 
-// Load and display comments
-function loadAndDisplayComments() {
-  const comments = loadComments();
-  const commentsList = document.getElementById("commentsList");
-
-  if (!commentsList) return;
-
-  if (comments.length === 0) {
-    commentsList.innerHTML = '<p style="color: var(--text-soft); text-align: center; padding: 20px;">Chưa có bình luận nào. Hãy là người đầu tiên!</p>';
-    return;
-  }
-
-  commentsList.innerHTML = comments.map(comment => `
-    <div class="comment-item">
-      <div class="comment-author">${escapeHtml(comment.name)}</div>
-      <div class="comment-date">${new Date(comment.timestamp).toLocaleDateString("vi-VN")} · ${new Date(comment.timestamp).toLocaleTimeString("vi-VN", {hour: "2-digit", minute: "2-digit"})}</div>
-      <div class="comment-text">${escapeHtml(comment.text).replace(/\n/g, "<br>")}</div>
-      ${!comment.approved ? '<div class="comment-pending">⏳ Đang chờ duyệt</div>' : ""}
-    </div>
-  `).join("");
-}
-
-// Submit comment
-function submitComment(event) {
-  event.preventDefault();
-  const form = event.target;
-  const name = form.name.value.trim();
-  const email = form.email.value.trim();
-  const text = form.text.value.trim();
-
-  if (!name || !email || !text) {
-    alert("Vui lòng điền đầy đủ thông tin!");
-    return;
-  }
-
-  saveComment(name, email, text);
-  form.reset();
-  loadAndDisplayComments();
-  alert("Cảm ơn bình luận của bạn! Bình luận sẽ được hiển thị sau khi được duyệt.");
-}
-
-// Sanitize HTML
-function escapeHtml(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-// Initialize comments on post pages
 if (document.body.classList.contains("post-page") || document.querySelector(".post-header")) {
   renderCommentsSection();
 }

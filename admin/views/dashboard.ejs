@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Yên Hạ Admin</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #faf6f1;
+      color: #4a3a32;
+    }
+    .header {
+      background: white;
+      padding: 24px 40px;
+      border-bottom: 1px solid #e8ddd3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2rem;
+      font-style: italic;
+    }
+    .header a {
+      color: #c4826f;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .header a:hover { color: #b3715a; }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      border: 1px solid #e8ddd3;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #c4826f;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .stat-label {
+      font-size: 0.95rem;
+      color: #8b7a6f;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      background: #c4826f;
+      color: white;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .btn:hover {
+      background: #b3715a;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(196, 130, 111, 0.3);
+    }
+    .btn-secondary {
+      background: white;
+      color: #c4826f;
+      border: 2px solid #c4826f;
+    }
+    .btn-secondary:hover {
+      background: #c4826f;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Dashboard</h1>
+    <a href="/admin/logout">Đăng xuất</a>
+  </div>
+
+  <div class="container">
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number"><%= postCount %></div>
+        <div class="stat-label">Bài viết</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= commentCount %></div>
+        <div class="stat-label">Comments chờ duyệt</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= orderCount %></div>
+        <div class="stat-label">Đơn đặt sách</div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="/admin/posts" class="btn">📝 Quản lý bài viết</a>
+      <a href="/admin/posts/new" class="btn btn-secondary">➕ Bài viết mới</a>
+    </div>
+  </div>
+</body>
+</html>
