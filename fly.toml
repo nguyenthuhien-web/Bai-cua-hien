@@ -1,0 +1,32 @@
+# fly.toml app configuration file generated for yenha-blog
+app = "yenha-blog"
+primary_region = "sin"
+
+[build]
+dockerfile = "Dockerfile"
+
+[env]
+NODE_ENV = "production"
+PORT = "8000"
+SESSION_SECRET = "yenha-blog-secret-2026"
+
+[http_service]
+internal_port = 8000
+force_https = true
+auto_stop_machines = true
+auto_start_machines = true
+min_machines_running = 1
+
+[[services]]
+protocol = "tcp"
+internal_port = 8000
+processes = ["app"]
+
+[services.concurrency]
+type = "requests"
+hard_limit = 1000
+soft_limit = 800
+
+[[mounts]]
+source = "data"
+destination = "/app/data"
