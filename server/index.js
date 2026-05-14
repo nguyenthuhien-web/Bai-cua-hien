@@ -2,6 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 import db from './db.js';
 import apiRoutes from './routes/api.js';
 import adminRoutes from './routes/admin.js';
@@ -29,15 +30,19 @@ app.use('/admin', adminRoutes);
 
 // Serve index.html for root path
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  const indexPath = path.join(__dirname, '..', 'public', 'index.html');
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.send(fs.readFileSync(indexPath, 'utf8'));
 });
 
-// 404 for API calls only
+// 404 handler
 app.use((req, res) => {
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'Not found' });
   }
-  res.status(404).sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  // For other paths, try to serve as static, fallback to index.html
+  res.status(200).setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.send(fs.readFileSync(path.join(__dirname, '..', 'public', 'index.html'), 'utf8'));
 });
 
 app.listen(PORT, () => {
