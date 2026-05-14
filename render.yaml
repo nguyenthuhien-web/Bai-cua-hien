@@ -1,14 +1,15 @@
 services:
   - type: web
     name: yenha-blog
-    env: node
+    env: docker
+    region: singapore
     plan: free
-    buildCommand: npm install
-    startCommand: npm start
     envVars:
       - key: PORT
         value: 8000
       - key: NODE_ENV
         value: production
       - key: SESSION_SECRET
-        generateValue: true
+        value: yenha2026
+    healthCheckPath: /api/posts
+    autoDeploy: true
